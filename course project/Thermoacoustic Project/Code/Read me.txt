@@ -1,0 +1,7 @@
+There are 3 funtions and one main file
+
+1) The values of number of modes, gamma, c1, c2, k and other values can be adjusted in the initialisation_variables
+
+2) def_f and def_g are functions to evalute the functions for range-kutta scheme
+
+3) Finally run the main.m file to run the program and compute the pressure and velocity fluctuations

@@ -1,0 +1,23 @@
+function [gamma, c1, c2, M, k, xf, J, w, zeta, uf, mode_size] = initialising_variables
+    gamma = 1.4;
+    a0 = 340; % speed of sound
+    %Lw = 3.6;
+    %dw = Lw/10;
+    u0 = 0.5;
+    %rho0 = 1.205;
+    %Tw = 1000;
+    %T0 = 298;
+    %Cv = 719;
+    %lambda = 0.0328;
+    c1 = 0.5;
+    c2 = 0.5;
+    M = u0/a0;
+    %k = 2*Lw*(Tw - T0)*(pi*lambda*Cv*rho0*dw/2)^0.5/100000;
+    k = 0.0005;
+    xf = 0.25;
+    mode_size = 10;
+    J = (1:mode_size);
+    w = J*pi;
+    zeta = (1/(2*pi))*(c1.*w/w(1) + c2*(w(1)./w).^0.5);
+    uf = 0.0;        
+end
