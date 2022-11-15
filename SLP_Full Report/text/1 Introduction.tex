@@ -1,0 +1,58 @@
+\subsection{Fundamentals of SU2}
+SU2 is an open source software built using C++ and Python for largely solving problems pertaining to Computational Fluid Dynamics and also other domains such as electrodynamics, elasticity etc. SU2 makes use of the Finite Volume Solver for most of the fluid flow problems. In this report the flow is assumed to be Euler to reduce complexity. 
+\subsubsection{Markers \& Boundary Conditions}
+Farfield: If a marker is assigned as Farfield no specific value is imposed on the marker and the governing equations are solved to arrive at the values of the flow variables. Generally inlet is defined as farfield  for external flow problems and the free-stream values are assigned for the flow variables at the inlet. \textbf{Free-stream} values are also used as \textbf{initial conditions}, so it is necessary to define free-stream values \\
+\\
+Total Conditions: Total Conditions is primarily used at the inlet to define the total temperature, total pressure, unity velocity vector to define the flow direction. A typical example of Total Condition\\
+MARKER\_INLET = ($Inlet_1$, $T_0$ , $P_0$, $\hat {v_x}$, $\hat{v_y}$, $\hat{v_z}$) \\
+\\
+Pressure Outlet: Defines the exit static pressure at the outlet\\
+MARKER\_OUTLET = (Outlet, P)\\
+\\
+The biggest disadvantage is that SU2 doesn't provide a velocity inlet option for compressible flows\\
+
+\subsubsection{Convergence Criteria}
+Steady-State Residual: If the convergence criteria is a residual, the solver stops once the computed residual is smaller than the value set by the user.\\
+\\
+Steady-State Coefficient: If  the  convergence  criteria  is  a coefficient,  a cauchy series approach  is  used for which a cauchy element is defined as the difference between coefficients of consecutive iterations.  When the average over a certain number of elements is below the value set by the user the solver stops iterating. \\
+\\
+Maximum Iteration: The user can also define the maximum number of iterations, if the solver encounters this limit then it automatically quits the iteration even if the residuals are not converged.\\
+
+\subsection{Convective Schemes}
+JST: The Jameson-Schmidt-Turkel scheme is a second order accurate central scheme. \\
+\\
+ROE: ROE is a second order accurate unpwind scheme, for the linear advection equation the information travels in the direction of the characteristic speed. If $a \geq 0$ then the information travels from the $i^t^h$ to the $(i+1)^t^h$ coordinate in the stencil \\
+\\
+HLLC: HLLC is also an upwind second order scheme\\
+\subsubsection{Other Features}
+Multigrid:
+The {\textit{multigrid algorithm}} is used for accelerated convergence, it automatically agglomerates the original mesh into a series of coarser representation and smoothing iterations are performed on all mesh levels with each non-linear solver iteration in order to provide a better residual update. A multigrid with X levels implies there are X coarser mesh levels and 1 level for the original mesh. {W\_CYCLE} provides better convergence rates though it is more computationally intensive.\\
+\\
+Windowing Functions for Unsteady Flows:\\
+\begin{equation}
+        C_D = 1/M\int_{0}^{M}w(t/M)C_D(t) dt 
+    \end{equation}
+    A windowing function is zero on boundaries and has an integral value of 1.  "WINDOW\_START\_ITER" must start once the transient phase of flow begins. Su2 offers several window functions with which the time-averaged value converges faster
+\begin{table}[ht]
+        \centering
+        \scalebox{0.75}{
+        \begin{tabular}{|l|c|}
+        \hline
+        WINDOW\_FUNCTION & CONVERGENCE ORDER\\
+        \hline
+        SQUARE & 1\\
+        \hline
+        HANN & 3 \\
+        \hline
+        HANN\_SQUARE & 5 \\
+        \hline
+        BUMP & Exponential \\
+        \hline
+        \end{tabular}}
+        \caption{Windowing Functions}
+        \label{tab:Windowing Functions}
+\end{table}\\
+CFL Adaptive:
+The CFL adaptive feature can be turned ON or OFF. It controls the multiplicative factors to increase or decrease the CFL with each iteration (depending on the success of each nonlinear iteration). $CFL_i$ is given by $CFL_i_-_1(Residual_i_-_1/Residual_i)^n$
+%\footnote{Veja, por exemplo, \url{http://www.fapesp.br/10408}.}
+\newpage
