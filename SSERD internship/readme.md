@@ -1,1 +1,1 @@
-This internship project is a result of the culmination of efforts by about 21 engineering students from all across the country. In a team of two, my primary role was to perform 3D CFD simulation of the HL-20 spacecraft, and it's modified version. 
+### This internship project is a result of the culmination of efforts by about 21 engineering students from all across the country. In a team of two, my primary role was to perform 3D CFD simulation of the HL-20 spacecraft and it's modified version.
